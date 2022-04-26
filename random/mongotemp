@@ -1,0 +1,19 @@
+
+var mongoDB = 'mongodb://localhost:27017/helmutsiteDB';
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
+
+const productSchema = new mongoose.Schema({
+  itemName:String,
+  img:String,
+  price:String
+
+})
+const Product = mongoose.model("Product", productSchema)
+
+const sprayedtee= new Product({
+  itemName:"sprayedtee",
+  img:"hl2.png",
+  price: "423"
+})
+
+//sprayedtee.save();

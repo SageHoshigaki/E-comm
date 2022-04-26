@@ -1,0 +1,56 @@
+
+
+.top-items{
+  display: inline-block;
+  list-style: none;
+  align-items: center;
+}
+
+.flex-container{
+  padding-top: 120px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-container{
+  flex-direction: row;
+  flex-grow: 1;
+  padding: 0 20px 0;
+  text-decoration: none;
+
+}
+
+.prodpics{
+  width: 401px;
+  height: 423px;
+}
+
+.product-info{
+padding-bottom: 40px;
+text-decoration: none;
+
+}
+.storeTitle .itemName{
+font-family: 'Montserrat', sans-serif;
+text-decoration: none;
+}
+
+.storeTitle{
+  font-size: 12px;
+  font-weight: 100;
+  padding-top: 5px;
+}
+
+.itemName{
+  font-size: 12px;
+}
+
+.price{
+  font-size: 10px;
+  
+}
+
+.product-link {
+  text-decoration: none;
+  color:inherit;
+}

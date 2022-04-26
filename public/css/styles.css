@@ -1,0 +1,23 @@
+a {
+  text-decoration: none;
+  border: 0;
+}
+body {
+  overflow-x: hidden;
+}
+.nav-link {
+  color: black;
+}
+
+.club {
+  text-align: center;
+}
+
+.landing {
+  width: 100%;
+}
+
+.shopping-bag {
+  height: 28px;
+  width: 28px;
+}

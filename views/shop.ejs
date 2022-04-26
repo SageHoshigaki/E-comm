@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<%- include('partials/head.ejs'); %> <%- include('partials/header.ejs'); %>
+
+<div class="container">
+  <div class="flex-container">
+    <% for (let i = 0; i < productData.length; i++){ %>
+    <div class="main-container">
+      <input
+        type="image"
+        src="<%=productData[i].img%>"
+        value="<%=productData[i].img%>"
+        class="prodpics"
+        name="img"
+      />
+      <div class="product-info">
+        <a
+          style="text-decoration: none"
+          class="product-link"
+          href="/product/<%=productData[i].itemName%>"
+        >
+          <h4 class="storeTitle" value="<%=productData[i].storeTitle%>">
+            <%=productData[i].storeTitle%>
+          </h4>
+          <h5 class="itemName" value="<%=productData[i].itemName%>" name="item">
+            <%=productData[i].itemName%>
+          </h5>
+          <h6 class="price"><%= productData[i].price%></h6>
+        </a>
+      </div>
+    </div>
+
+    <% }%>
+  </div>
+</div>
