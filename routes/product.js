@@ -13,14 +13,13 @@ let cart = new Cart({
   products: [],
   total: 0,
 });
-cart.save();
+//cart.save();
 
 //const cartItems = cart.products;
 //const cartId = "61d7a73b9576731e2634e05a";
 //cart.save();
 
 router.get("/", function (req, res) {
-  spinUpCart();
   Product.find({}, function (err, productData) {
     if (err) {
       console.log(err);

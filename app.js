@@ -31,7 +31,8 @@ const cartRoute = require("./routes/cart");
 app.use("/cart", cartRoute);
 
 //Connect To Database
-var mongoDB = "mongodb://localhost:27017/helmutsiteDB";
+var mongoDB =
+  "mongodb+srv://Hosh:Bearbrick2@cluster0.e2dla.mongodb.net/helmutsiteDB";
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Routes
@@ -40,6 +41,8 @@ app.get("/", function (req, res) {
 });
 
 //Listen To Server
-app.listen(3000, function () {
+const port = process.env.PORT || 3000;
+
+app.listen(port, function () {
   console.log("Server is on");
 });
