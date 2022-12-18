@@ -13,7 +13,7 @@ let cart = new Cart({
   products: [],
   total: 0,
 });
-//cart.save();
+//Cart.save();
 
 //const cartItems = cart.products;
 //const cartId = "61d7a73b9576731e2634e05a";
