@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const ejs = require("ejs");
 const _ = require("lodash");
+const PORT = process.env.PORT || 3030;
 
 const app = express();
 
@@ -41,8 +42,8 @@ app.get("/", function (req, res) {
 });
 
 //Listen To Server
-const port = process.env.PORT || 3000;
 
-app.listen(port, function () {
+
+app.listen(PORT, function () {
   console.log("Server is on");
 });
