@@ -48,3 +48,23 @@ body {
   width: 100%;
 
 }
+
+.footer-inp{
+  margin-left: 16px;
+}
+
+.footer-btn{
+  margin-top: 10px;
+  margin-right: 60px;
+}
+
+.footer-menu{
+  margin-right: 50px;
+
+}
+
+.footer-menu li{
+  margin-top: 10px;
+  padding: 0 9px;
+  display: inline-block;
+}
