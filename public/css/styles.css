@@ -43,6 +43,7 @@ a:hover {
 .login-head{
   text-align: left;
   padding: 0 0 0 25%;
+  font-size: 14px;
 }
 
 .input{
@@ -76,4 +77,16 @@ a:hover {
 
 li:hover{
   cursor: pointer;
+}
+
+.forgot-acc{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: left;
+  padding: 0 0 0 25%;
+  font-size:13px;
+}
+
+.sign-btn{
+  margin-top: 12px;
 }
