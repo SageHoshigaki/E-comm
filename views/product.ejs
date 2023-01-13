@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <%- include('partials/head.ejs'); %> <%- include('partials/header.ejs'); %>
 <body>
-  <div class="productContent columns is-flex is-flex-direction-row">
+  <div class="productContent is-flex is-flex-direction-row">
     <div class="product column">
-      <img class="productImg" src="../<%=productData.img%>" />
+      <img class="productImg" name="productImg" src="../<%=productData.img%>" />
     </div>
 
     <div class="product-details column">
@@ -42,71 +42,7 @@
         />
       </form>
     </div>
-
-    <div class="cart-drawer column" id="cart-drawer">
-      <div class="drawer-heading is-flex columns">
-        <div class="column">
-          <h5 class="cart-mainh is-two-thirds">Shopping Cart</h5>
-        </div>
-        <div class="column">
-          <h5 onclick="backBtn()" class="is-primary is-inverted">Back</h5>
-        </div>
-      </div>
-
-      <div class="cart-details">
-        <div class="drawer-handler">
-          <% for (let i = 0; i < cartData.products.length; i++){%>
-          <div class="columns is-flex is-flex-direction-row">
-            <div class="cart-img column"></div>
-
-            <div class="item-description column">
-              <h5><%= cartData.products[i].itemName %></h5>
-              <h5>Light description</h5>
-              <h5><%= cartData.products[i].qty %></h5>
-            </div>
-
-            <div class="cart-pricing column">
-              <h5><%= cartData.products[i].price %></h5>
-              <h5>remove</h5>
-            </div>
-          </div>
-        </div>
-
-        <% } %>
-        <div class="checkout-box">
-          <div class="subtotal columns is-flex is-flex-direction-row">
-            <div class="column is-three-fifths">
-              <h6>Subtotal</h6>
-            </div>
-            <div class="column">
-              <h6>$<%= cartData.total %></h6>
-            </div>
-          </div>
-
-          <div class="checkout-btn">
-            <button type="button" class="button is-dark">Checkout</button>
-            <button type="button" class="button is-dark">
-              Continue Shopping
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
-  <script>
-    let cartBtn = document.getElementById("cart-button-na");
-    let ackBtn = document.getElementsByClassName("back-btn");
-
-    function cartActive() {
-      let cartDrawer = document.getElementById("cart-drawer");
-      cartDrawer.classList.toggle("active");
-    }
-
-    function backBtn() {
-      let cartDrawer = document.getElementById("cart-drawer");
-      cartDrawer.classList.toggle("active");
-    }
-    cartBtn.addEventListener("click", cartActive);
-  </script>
+  <%- include('partials/shoppingBag.ejs'); %>
 </body>

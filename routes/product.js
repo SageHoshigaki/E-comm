@@ -1,115 +1,101 @@
 // jshint esversion:6
 const express = require("express");
-const mongoose = require("mongoose");
 const router = express.Router();
-const bodyParser = require("body-parser");
+const body = require("body-parser");
 const _ = require("lodash");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
-const { add } = require("lodash");
-const { append } = require("express/lib/response");
 
-let cart = new Cart({
-  products: [],
-  total: 0,
-});
-//Cart.save();
 
-//const cartItems = cart.products;
-//const cartId = "61d7a73b9576731e2634e05a";
-//cart.save();
+//cart logic module 
+const cartLogic = require('../module/cartlogic');
 
-router.get("/", function (req, res) {
-  Product.find({}, function (err, productData) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(productData);
-    }
+//middleware to load cart&product data
+const getProductAndCartData = require('../middleware/productAndCart.js');
+const { request } = require("express");
+
+router.get("/", getProductAndCartData, function (req, res) {
+  res.render('products', {
+    productData: req.productData,
+    cartData: req.cartData
   });
 });
 
-let getProductData = function (req, res, next) {
-  var itemLog = req.params.productName.substring(0);
 
+
+router.get("/:productName",getProductAndCartData, function (req, res) {
+  var itemLog = req.params.productName.substring(0);
+  
   Product.findOne({ itemName: itemLog }, function (err, productData) {
     if (err) {
       next(err);
     } else {
       res.locals.productData = productData;
-      next();
-    }
-  });
-};
-
-/*let getLatestCart = function (req, res, next) {
-  Cart.findOne({}, function (err, cartData) {
-    if (err) {
-      next(err);
-    } else {
-      res.locals.cartData = cartData;
-      next();
-    }
-  });
-};*/
-
-router.use("/:productName", getProductData);
-
-router.get("/:productName", function (req, res) {
-  var itemLog = req.params.productName.substring(0);
-  var itemLogg = _.lowerCase(itemLog);
-
-  Cart.findOne({}, null, { sort: { _id: -1 } }, function (err, cartData) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("product", { cartData: cartData });
+      res.render("product", {
+        productData,
+        extraProductData: req.productData,
+        cartData:req.cartData
+      });
     }
   });
 });
 
-router.post("/", function (req, res) {
-  const cartItems = cart.products;
+
+
+router.post("/", getProductAndCartData, async function (req, res) {
+  const cart = req.cartData;
+  const shoppingBag = req.session.cart.products;
   let incomingItem = req.body.addcart;
   let caughtPrice = parseInt(req.body.price);
-  let shoppingBag = cart.products;
-  let cartTotal = cart.total;
+  const sess = req.sessionID;
+  let cartTotal = req.session.cart.total;
+    
+ 
 
-  function updateQty(cartItemIndex) {
+  let totalPrice = cartLogic.calculateTotalPrice(shoppingBag);
+
+
+  const updateQty = function(cartItemIndex) {
     return (shoppingBag[cartItemIndex].qty += 1);
   }
 
-  function updatePrice(index) {
+  const updatePrice = function(index) {
     let newPrice = shoppingBag[index].qty * caughtPrice;
     return (shoppingBag[index].price = newPrice);
   }
 
-  function emptyCart() {
-    return cart.products.length;
+
+  const emptyCart = function(shoppingBag) {
+    return shoppingBag.length;
   }
 
-  const findItemInCart = (element) => element.itemName === incomingItem;
+  const findItemInCart = function(element) {
+    return element.itemName === incomingItem;
+  }
 
-  function checkItemExist() {
+const checkItemExist = function () {
     let itemIndexNumber = shoppingBag.findIndex(findItemInCart);
     if (itemIndexNumber === -1) {
-      addToCart(incomingItem);
+      addToCart(incomingItem,caughtPrice);
     } else {
       updateQty(itemIndexNumber);
       updatePrice(itemIndexNumber);
-      //updateCartTotal();
+      //console.log((updateCartTotal()));
     }
   }
 
-  function addToCart(item) {
-    return cart.products.push({ itemName: item, price: caughtPrice, qty: 1 });
+  const addToCart = function (item, caughtPrice) {
+    return shoppingBag.push({ itemName: item, price: caughtPrice, qty: 1 });
   }
 
+
+
+
   //The statement That Starts the loop
-  if (emptyCart() === 0) {
+  if (emptyCart(shoppingBag) === 0) {
     addToCart(incomingItem);
   } else {
-    checkItemExist();
+    checkItemExist(incomingItem, shoppingBag);
     /*await cart.save(cart, function (err) {
       if (err) {
         console.log(err);
@@ -118,21 +104,46 @@ router.post("/", function (req, res) {
     });*/
   }
 
-  /* Update Total*/
-  let valuesToCalc = [];
-  const reducer = (previousValue, currentValue) => previousValue + currentValue;
 
+  let valuesToCalc = [];
+  let initialValue = 0;
+    
   for (let i = 0; i < shoppingBag.length; i++) {
     valuesToCalc.push(shoppingBag[i].price);
-  }
-  let totalPrice = valuesToCalc.reduce(reducer, 0);
-  cartTotal = totalPrice;
-  cart.total = totalPrice;
+    initialValue += valuesToCalc[i];
+    req.session.cart.total = initialValue;
+  } 
+  
 
-  res.redirect("/product/" + incomingItem);
-  cart.markModified("products");
-  cart.save(cart);
-  console.log(cart);
+
+  
+ 
+
+  
+
+
+
+
+
+
+
+  try{
+    const Updatedcart = await Cart.findOneAndUpdate({sessionID: sess}, {$set: {products: shoppingBag, total:cartTotal}}, {new: true});
+    if(Updatedcart){
+        res.redirect("/product/" + incomingItem)
+    } 
+} catch (err){
+    console.log(err)
+    res.send('Error updating cart')
+}
+
+
+  
 });
+ 
+
+
+
+
 
 module.exports = router;

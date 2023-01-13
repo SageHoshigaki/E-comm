@@ -1,0 +1,49 @@
+<%- include('partials/head.ejs'); %> <%- include('partials/header.ejs'); %>
+<body>
+  <div class="registration-form">
+    <form method="post" action="/account/register">
+      <div>
+        <input
+          class="input regis-inp is-black"
+          type="text"
+          placeholder="Firstname"
+          name="firstname"
+        />
+      </div>
+      <div>
+        <input
+          class="input regis-inp is-black"
+          type="text"
+          placeholder="LastName"
+          name="lastname"
+        />
+      </div>
+      <div>
+        <input
+          class="input regis-inp is-black"
+          type="text"
+          placeholder="EMAIL"
+          name="email"
+        />
+      </div>
+      <div>
+        <input
+          class="input regis-inp is-black"
+          type="text"
+          placeholder="PASSWORD"
+          name="password"
+        />
+      </div>
+      <button class="button is-outlined is-black is-fullwidth create-regis">
+        CREATE
+      </button>
+    </form>
+    <form method="get" action="/account">
+      <div>
+        <button class="button is-outlined is-black is-fullwidth already-regis">
+          ALREADY REGISTERED ? LOGIN
+        </button>
+      </div>
+    </form>
+  </div>
+</body>

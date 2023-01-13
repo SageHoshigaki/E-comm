@@ -90,4 +90,13 @@ li:hover{
 
 .sign-btn{
   margin-top: 12px;
+  font-size: 4px;
+}
+
+.acc-sign{
+  font-size: 12px;
+}
+
+.footer{
+  background-color: white;
 }

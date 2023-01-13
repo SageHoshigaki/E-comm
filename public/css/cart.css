@@ -13,3 +13,7 @@
 .subtotal {
   margin-top: 84px;
 }
+
+#cart-drawer{
+  overflow:scroll !important;
+}

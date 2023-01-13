@@ -2,9 +2,9 @@
 <%- include('partials/head.ejs'); %> <%- include('partials/header.ejs'); %>
 
 <div class="container">
-  <div class="flex-container">
+  <div class="flex-container columns">
     <% for (let i = 0; i < productData.length; i++){ %>
-    <div class="main-container">
+    <div class="main-container column">
       <input
         type="image"
         src="<%=productData[i].img%>"
@@ -29,6 +29,8 @@
       </div>
     </div>
 
-    <% }%>
+    <% }%> <%- include('partials/shoppingbag'); %>
   </div>
 </div>
+
+<%- include('partials/footer.ejs'); %>

@@ -1,5 +1,28 @@
 .login-box{
  text-align: center;
  margin-top: 10%;
+margin-bottom: 6%;
+}
 
+.registration-form{
+    margin:auto;
+    margin-top: 10%;
+    align-content: center;
+    width: 50%;
+}
+
+.regis-inp{
+    width: 50%;
+}
+
+.already-regis{
+    margin-top: 10%;
+}
+
+.create-regis{
+    margin-top: 2.5%;
+}
+
+.remove-btn{
+    border:  none !important;
 }

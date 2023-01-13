@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <%- include('partials/head.ejs'); %> <%- include('partials/header.ejs'); %>
+<body>
+  <div class="acc-section">
+    <form method="post" action="/account">
+      <div class="login-box">
+        <div class="loginMain">
+          <h1 class="login-head">Login</h1>
 
-<div class="login-box">
-  <div class="loginMain">
-    <h1 class="login-head">Login</h1>
+          <div>
+            <input
+              class="input acc-inp inp-email is-black"
+              type="text"
+              style="width: 50%"
+              name="username"
+              placeholder="Email"
+            />
+          </div>
+          <div>
+            <input
+              class="input acc-inp inp-pass is-black"
+              type="text"
+              style="width: 50%"
+              name="password"
+              placeholder="Password"
+            />
+          </div>
+          <button
+            class="button sign-btn is-black is-outlined"
+            style="width: 50%"
+            type="submit"
+          >
+            <h1 class="acc-sign">SIGN IN</h1>
+          </button>
+        </form>
+          <h3 class="forgot-acc">Forgot Your Password?</h3>
+        </div>
+     <form method="get" action="/account/register">
+        <button
+          class="button is-black is-outlined"
+          style="width: 50%"
+          type="text"
+          name="register"
+        >
+          <h1 class="acc-sign">REGISTER AN ACCOUNT</h1>
+        </button>
+      </div>
+    </form>
 
-    <div>
-      <input
-        class="input acc-inp inp-email is-black"
-        type="text"
-        style="width: 50%"
-        placeholder="Email"
-      />
-    </div>
-    <div>
-      <input
-        class="input acc-inp inp-pass is-black"
-        type="text"
-        style="width: 50%"
-        placeholder="Password"
-      />
-    </div>
-    <button
-      class="button sign-btn is-black is-outlined"
-      style="width: 50%"
-      type="submit"
-    >
-      Sign In
-    </button>
-    <h3 class="forgot-acc">Forgot Your Password?</h3>
+    <%- include('partials/shoppingbag'); %>
   </div>
+</body>
 
-  <button class="button is-black is-outlined" style="width: 50%" type="text">
-    Sign Up
-  </button>
-</div>
+<%- include('partials/footer.ejs')%>

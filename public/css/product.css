@@ -5,42 +5,10 @@
 .productImg {
   margin-left: 10%;
 }
+
 .product-details {
   position: relative;
   margin-top: 5%;
   margin-left: 8%;
 }
-.cart-details h5 {
-  font-size: 10px;
-}
 
-.drawer-heading {
-  font-size: 10px;
-}
-
-.back-btn {
-  margin-top: -0.5rem;
-}
-.back-btn:hover {
-  cursor: pointer;
-}
-.cart-mainh {
-  margin-right: 5rem;
-}
-.cart-drawer {
-  border: 5px;
-  border-style: solid;
-  height: 600px;
-  position: absolute;
-  background-color: white;
-  width: 35%;
-  margin-top: 5%;
-  color: black;
-  margin-left: 400%;
-  overflow: hidden;
-  transition: margin-left 2s ease-in-out;
-}
-
-.cart-drawer.active {
-  margin-left: 70%;
-}
