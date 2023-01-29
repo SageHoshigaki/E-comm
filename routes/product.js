@@ -49,6 +49,7 @@ router.post("/", getProductAndCartData, async function (req, res) {
   let caughtPrice = parseInt(req.body.price);
   const sess = req.sessionID;
   let cartTotal = req.session.cart.total;
+
     
  
 
@@ -65,6 +66,7 @@ router.post("/", getProductAndCartData, async function (req, res) {
   }
 
 
+
   const emptyCart = function(shoppingBag) {
     return shoppingBag.length;
   }
@@ -76,7 +78,7 @@ router.post("/", getProductAndCartData, async function (req, res) {
 const checkItemExist = function () {
     let itemIndexNumber = shoppingBag.findIndex(findItemInCart);
     if (itemIndexNumber === -1) {
-      addToCart(incomingItem,caughtPrice);
+      addToCart(incomingItem, caughtPrice);
     } else {
       updateQty(itemIndexNumber);
       updatePrice(itemIndexNumber);
@@ -94,6 +96,9 @@ const checkItemExist = function () {
   //The statement That Starts the loop
   if (emptyCart(shoppingBag) === 0) {
     addToCart(incomingItem);
+    total = caughtPrice;
+    req.session.cart.total = total;
+    cartTotal = total;
   } else {
     checkItemExist(incomingItem, shoppingBag);
     /*await cart.save(cart, function (err) {
@@ -109,9 +114,14 @@ const checkItemExist = function () {
   let initialValue = 0;
     
   for (let i = 0; i < shoppingBag.length; i++) {
+     if(typeof shoppingBag[i].price === 'number'){
     valuesToCalc.push(shoppingBag[i].price);
     initialValue += valuesToCalc[i];
+    }else {
+    valuesToCalc.push(0);
+    }
     req.session.cart.total = initialValue;
+    cartTotal = initialValue;
   } 
   
 

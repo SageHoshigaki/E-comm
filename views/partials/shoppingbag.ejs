@@ -12,14 +12,21 @@
 
   <div class="cart-details">
     <form id="form-delete" class="form-baby" action="/delete" method="post">
+      <input
+        class="in-url"
+        type="hidden"
+        id="url-name"
+        name="name"
+        title="Your name"
+      />
       <div class="drawer-handler">
         <% for (let i = 0; i < cartData.products.length; i++){%>
         <div class="columns is-flex is-flex-direction-row">
-
           <div class="cart-img column is-one-quarter">
-       
-            <img class="cartProduct-img" src="../<%=cartData.products[i].img%>" />
-           
+            <img
+              class="cartProduct-img"
+              src="../<%=cartData.products[i].img%>"
+            />
           </div>
 
           <div class="item-description column">
@@ -27,7 +34,6 @@
             <h5>Light description</h5>
             <h5><%= cartData.products[i].qty %></h5>
           </div>
-
           <div class="cart-pricing column">
             <h5><%= cartData.products[i].price %></h5>
             <button
@@ -40,27 +46,29 @@
             </button>
           </div>
         </div>
-      
     </form>
 
     <% } %>
+  </div>
+  <div class="checkout-box">
+    <div class="subtotal columns is-flex is-flex-direction-row">
+      <div class="column is-three-fifths">
+        <h6>Subtotal</h6>
+      </div>
+      <div class="column">
+        <h6 id="total"><%= cartData.total %></h6>
+      </div>
     </div>
-    <div class="checkout-box">
-      <div class="subtotal columns is-flex is-flex-direction-row">
-        <div class="column is-three-fifths">
-          <h6>Subtotal</h6>
-        </div>
-        <div class="column">
-          <h6 id="total"><%= cartData.total %></h6>
-        </div>
-      </div>
+  </div>
 
-      <div class="checkout-btn">
-        <button type="button" id="checkout-btn" class="button is-dark">
-          Checkout
-        </button>
-        <button type="button" class="button is-dark">Continue Shopping</button>
-      </div>
+  <div class="checkout-btn">
+    <div>
+      <a type="button" id="checkout-btn" class="button is-dark" href="/checkout">
+        Checkout
+      </a>
+    </div>
+<div>
+    <button type="button" class="button is-dark">Continue Shopping</button>
     </div>
   </div>
 </div>
@@ -70,9 +78,12 @@
   let ackBtn = document.getElementsByClassName("back-btn");
   let subtotal = document.getElementById("total").innerHTML;
   let checkoutBtn = document.getElementById("checkout-btn");
+  let maybeUrl = window.location.href;
+
+  document.getElementById("url-name").value = maybeUrl;
 
   let numsubtotal = parseInt(subtotal);
-  console.log(numsubtotal);
+  console.log(maybeUrl);
 
   if (numsubtotal === 0) {
     checkoutBtn.style.visibility = "hidden";
@@ -89,5 +100,6 @@
     let cartDrawer = document.getElementById("cart-drawer");
     cartDrawer.classList.toggle("active");
   }
+
   cartBtn.addEventListener("click", cartActive);
 </script>

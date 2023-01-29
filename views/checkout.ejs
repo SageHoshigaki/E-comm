@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%- include('../partials/head.ejs'); %>
+<%- include('partials/head.ejs'); %> <%- include('partials/header.ejs'); %>
 
 <div>
   <div class="payment-vector">
@@ -26,4 +26,10 @@
   </div>
 
   <div class="cart-vector"></div>
+  <% for(let i = 0; i < cartData.products.length; i++) { %>
+  <div class="checkorder-section">
+    <h1><%= cartData.products[i].itemName %></h1>
+    <h1><%= cartData.products[i].price %></h1>
+  </div>
+  <% } %>
 </div>

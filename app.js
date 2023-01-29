@@ -46,9 +46,10 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
+const getProductAndCartData = require("./middleware/productAndCart");
+const { spawnCartSession } = require("./middleware/cartData");
 
-
-
+app.use("/", spawnCartSession, getProductAndCartData);
 
 
 //Import Routes
@@ -69,8 +70,7 @@ app.use("/cart", cartRoute);
 
 
 
-const getProductAndCartData = require("./middleware/productAndCart");
-const { spawnCartSession } = require("./middleware/cartData");
+
 
 
 
@@ -82,10 +82,17 @@ const { spawnCartSession } = require("./middleware/cartData");
 //Routes
 
 
-app.use("/", spawnCartSession, getProductAndCartData);
+
+
+
+
+
+
+
 
 
 app.get("/", function (req, res) {
+
   
   res.render("index", {
     productData: req.productData,
@@ -95,16 +102,97 @@ app.get("/", function (req, res) {
 
 
 
-app.post('/delete', function (req, res) {
+app.post('/delete', async function (req, res) {
   let itemToDelete = req.body.remove;
-  let currentUrl = req.body.url;
+  let currentUrl = req.body.name;
+  let currentSessID = req.sessionID;
+  let shoppingBag = req.session.cart.products;
+  let cartTotal = req.session.cart.total;
   
+
+  const findItemInCart = function(element) {
+    return element.itemName === itemToDelete;
+  }
+
+
+
+
+  function updatePrice(itemIndexNumber) {
+    let basePrice = shoppingBag[itemIndexNumber].price / shoppingBag[itemIndexNumber].qty;
+    let updatePrice = shoppingBag[itemIndexNumber].price - basePrice;
+    return shoppingBag[itemIndexNumber].price = updatePrice;
+}
+
+  function removeOne(itemIndexNumber) {
+    return (shoppingBag[itemIndexNumber].qty -= 1);
+    
+  }
+
+
+
+  let itemIndexNumber = shoppingBag.findIndex(findItemInCart);
+
+  if (shoppingBag[itemIndexNumber].qty <= 1) {
+    let newShoppingBag = shoppingBag.filter(function (products) {
+      return products.itemName !== itemToDelete;
+    });
+    shoppingBag = newShoppingBag;
+    req.session.cart.products = newShoppingBag;
+  } else if (shoppingBag[itemIndexNumber].qty > 1) {
+    updatePrice(itemIndexNumber);
+    removeOne(itemIndexNumber);
+  } else {
+    console.log("check logic Shouldnt be here");
+  }
+
+  if (shoppingBag === []){
+    req.session.cart.total = 0;
+  } 
+
+
+
+  let valuesToCalc = [];
+  let initialValue = 0;
+    
+  for (let i = 0; i < shoppingBag.length; i++) {
+    valuesToCalc.push(shoppingBag[i].price);
+    initialValue += valuesToCalc[i];
+    req.session.cart.total = initialValue;
+    cartTotal = initialValue;
+  } 
+
+  
+  console.log(shoppingBag);
+ 
+
+  try {
+    //Find the cart in the database using the session ID
+    const cartToUpdate = await Cart.findOne({ sessionID: currentSessID });
+    //Modify the cart
+    cartToUpdate.products = shoppingBag;
+    cartToUpdate.total = cartTotal;
+    //Save the modified cart
+    await cartToUpdate.save();
+    res.redirect(currentUrl);
+} catch (err){
+    console.log(err)
+    res.send('Error updating cart')
+}
+
+
 });
 
 
 app.get('/ordersum', function (req, res) {
   res.render("ordersum");
 });
+
+
+
+
+
+
+
 
 //Listen To Server
 

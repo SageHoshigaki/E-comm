@@ -9,7 +9,7 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 function getProductAndCartData(req, res, next) {
   const query1 = Product.find({});
-  const query2 = Cart.findOne({}, null, { sort: { _id: -1 } });
+  const query2 = Cart.findOne({sessionID:req.sessionID}, null, { sort: { _id: -1 } });
 
   Promise.all([query1.exec(), query2.exec()]).then(function(results) {
     req.productData = results[0];
