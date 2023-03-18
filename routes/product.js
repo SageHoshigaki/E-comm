@@ -13,6 +13,7 @@ const cartLogic = require('../module/cartlogic');
 //middleware to load cart&product data
 const getProductAndCartData = require('../middleware/productAndCart.js');
 const { request } = require("express");
+const { update } = require("../models/Cart");
 
 router.get("/", getProductAndCartData, function (req, res) {
   res.render('products', {
@@ -79,6 +80,7 @@ const checkItemExist = function () {
     let itemIndexNumber = shoppingBag.findIndex(findItemInCart);
     if (itemIndexNumber === -1) {
       addToCart(incomingItem, caughtPrice);
+      updatePrice(itemIndexNumber);
     } else {
       updateQty(itemIndexNumber);
       updatePrice(itemIndexNumber);
