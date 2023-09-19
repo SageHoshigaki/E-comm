@@ -34,7 +34,9 @@
             <h5>remove</h5>
           </button>
         </div>
+        <% if(typeof window!=="undefined"){ %>
         <input type="hidden" name="name" value="<%= window.location.href %>" />
+        <% } %>
       </form>
     </div>
 
@@ -53,15 +55,10 @@
   </div>
 
   <div class="checkout-btn">
-    <form action="/create-checkout-session" method="POST">
+    <form action="/checkout/create-checkout-session" method="POST">
+    ;''
       <div>
-        <submit
-          type="button"
-          id="checkout-btn"
-          class="button is-dark"
-          href="/checkout"
-        >
-          Checkout
+        <input type="submit" value="Checkout" id="checkout-btn" class="button is-dark">
         </submit>
       </div>
     </form>
